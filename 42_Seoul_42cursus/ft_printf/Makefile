@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jiyyu </var/mail/jiyyu>                    +#+  +:+       +#+         #
+#    By: jiyyu <jiyyu@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/12/28 16:22:16 by jiyyu             #+#    #+#              #
-#    Updated: 2020/12/28 17:04:28 by jiyyu            ###   ########.fr        #
+#    Created: 2020/12/29 11:14:35 by jiyyu             #+#    #+#              #
+#    Updated: 2020/12/29 12:01:06 by jiyyu            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ME		= libftprintf.a
+NAME		= libftprintf.a
 LIBFT		= libft
 LIBFT_LIB	= libft.a
-SRCS		= ./ft_printf.c ./ft_printf_utils.c\
+SRCS		= ./ft_printf.c ./ft_printf_util.c\
 			  ./ft_print_char.c ./ft_print_nbr.c ./ft_print_string.c
 OBJS		= $(SRCS:.c=.o)
 INCS		= .

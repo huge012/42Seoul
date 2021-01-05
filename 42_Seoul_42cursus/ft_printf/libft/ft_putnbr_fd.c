@@ -6,7 +6,7 @@
 /*   By: jiyyu <jiyyu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 18:23:38 by jiyyu             #+#    #+#             */
-/*   Updated: 2020/07/07 18:31:04 by jiyyu            ###   ########.fr       */
+/*   Updated: 2020/12/29 12:11:28 by jiyyu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 void	ft_putnbr_fd(int n, int fd)
 {
 	if (n == -2147483648)
-		return (ft_putstr_fd("-2147483648", fd));
+	{
+		ft_putstr("-2147483648");
+		return ;
+	}
 	if (n < 0)
 	{
-		ft_putchar_fd('-', fd);
+		ft_putchar('-');
 		n *= -1;
 	}
 	if (n < 10)
-		ft_putchar_fd(n + '0', fd);
+		ft_putchar(n + '0');
 	else
 	{
 		ft_putnbr_fd((n / 10), fd);
-		ft_putchar_fd((n % 10) + '0', fd);
+		ft_putchar((n % 10) + '0');
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_string.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyyu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: jiyyu <jiyyu@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/28 17:57:26 by jiyyu             #+#    #+#             */
-/*   Updated: 2020/12/28 17:57:38 by jiyyu            ###   ########.fr       */
+/*   Created: 2020/12/29 11:15:14 by jiyyu             #+#    #+#             */
+/*   Updated: 2021/01/04 21:13:53 by jiyyu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*parse_buf(char *str, int end, int len)
 
 	end = end < len ? end : len;
 	if (!(buf = (char *)malloc(sizeof(char) * end + 1)))
-		return (NULL);
+		return (0);
 	i = 0;
 	while (i < end)
 	{
@@ -36,6 +36,15 @@ int		put_width_str(char **buf, t_info *info)
 	int		i;
 
 	if (info->width <= (int)ft_strlen(*buf))
+		return ((int)ft_strlen(*buf));
+	width = (char *)malloc(sizeof(char) * (info->width - ft_strlen(*buf) + 1));
+	if (width == 0)
+	{
+		free(buf);
+		return (-1);
+	}
+	i = 0;
+	while ((size_t)i < info->width - ft_strlen(*buf))
 	{
 		width[i] = (info->zero == 1) ? '0' : ' ';
 		i++;
@@ -45,10 +54,12 @@ int		put_width_str(char **buf, t_info *info)
 		*buf = ft_strjoin(width, *buf, 3);
 	else
 		*buf = ft_strjoin(*buf, width, 3);
+	if (buf == 0)
+		return (-1);
 	return (info->width);
 }
 
-int		print_string(char *str, t_info *info)
+int		ft_print_string(char *str, t_info *info)
 {
 	int		ret;
 	char	*buf;
@@ -58,8 +69,10 @@ int		print_string(char *str, t_info *info)
 		str = "(null)";
 	if (info->prec == -1 || (size_t)info->prec > ft_strlen(str))
 		info->prec = ft_strlen(str);
-	buf = parse_buf(str, info->prec, ft_strlen(str));
-	ret = put_width_str(&buf, info);
+	if ((buf = parse_buf(str, info->prec, ft_strlen(str))) == 0)
+		return (-1);
+	if ((ret = put_width_str(&buf, info)) == -1)
+		return (-1);
 	ft_putstr(buf);
 	free(buf);
 	return (ret);

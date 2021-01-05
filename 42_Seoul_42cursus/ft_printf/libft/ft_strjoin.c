@@ -6,7 +6,7 @@
 /*   By: jiyyu <jiyyu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 17:01:19 by jiyyu             #+#    #+#             */
-/*   Updated: 2020/12/28 17:28:29 by jiyyu            ###   ########.fr       */
+/*   Updated: 2021/01/04 12:35:49 by jiyyu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	*ft_strjoin(char *s1, char *s2, int free_target)
 {
-	size_t	len1;
-	size_t	len2;
-	size_t	i;
-	size_t	j;
+	int		len1;
+	int		len2;
+	int		i;
+	int		j;
 	char	*str;
 
 	len1 = ft_strlen(s1);

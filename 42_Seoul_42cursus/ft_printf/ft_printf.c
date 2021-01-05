@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiyyu <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: jiyyu <jiyyu@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/28 17:58:43 by jiyyu             #+#    #+#             */
-/*   Updated: 2020/12/28 17:58:48 by jiyyu            ###   ########.fr       */
+/*   Created: 2020/12/29 11:16:27 by jiyyu             #+#    #+#             */
+/*   Updated: 2021/01/04 20:25:37 by jiyyu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "ft_printf.h"
 
 int		print_type(va_list str, t_info *info)
@@ -60,41 +61,48 @@ void	check_width_prec(va_list str,
 	}
 }
 
-void	check_info(va_list str, char *fmt, t_info *info, int i)
+int		check_info(va_list str, char *fmt, t_info *info, int i)
 {
-	if (fmt[i] == '0' && info->width == 0 && info->prec == -1)
-		info->zero = 1;
-	else if (fmt[i] == '-')
-		info->minus = 1;
-	else if (fmt[i] == '.')
-		info->prec = 0;
-	else if (ft_isdigit(fmt[i]) || fmt[i] == '*')
-		check_width_prec(str, fmt, info, i);
+	while (fmt[++i] != '\0' && !(ft_strchr(TYPE, fmt[i])))
+	{
+		if (fmt[i] == '0' && info->width == 0 && info->prec == -1)
+			info->zero = 1;
+		else if (fmt[i] == '-')
+			info->minus = 1;
+		else if (fmt[i] == '.')
+			info->prec = 0;
+		else if (ft_isdigit(fmt[i]) || fmt[i] == '*')
+			check_width_prec(str, fmt, info, i);
+	}
+	info->type = fmt[i++];
+	if ((info->minus == 1 || info->prec > -1) && info->type != '%')
+		info->zero = 0;
+	return (i);
 }
 
 int		parse_format(va_list str, char *fmt)
 {
 	int		i;
 	int		ret;
+	int		temp;
 	t_info	*info;
 
 	i = 0;
 	ret = 0;
 	if (!(info = malloc(sizeof(t_info) * 1)))
 		return (-1);
-	while (fmt[i] != '\0')
+	while (fmt[i] != '\0' && ret >= 0)
 	{
 		while (fmt[i] != '%' && fmt[i] != '\0')
 			ret += ft_putchar(fmt[i++]);
 		if (fmt[i] == '%')
 		{
 			set_info(info);
-			while (fmt[++i] != '\0' && !(ft_strchr(TYPE, fmt[i])))
-				check_info(str, fmt, info, i);
-			info->type = fmt[i++];
-			if ((info->minus == 1 || info->prec > -1) && info->type != '%')
-				info->zero = 0;
-			ret += print_type(str, info);
+			i = check_info(str, fmt, info, i);
+			if ((temp = print_type(str, info)) == -1)
+				ret = -1;
+			else
+				ret += temp;
 		}
 	}
 	free(info);
