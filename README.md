@@ -7,7 +7,7 @@
 
 42_Seoul_42Cursus
 
-  20.06.29 ~
+  20.06.29 ~ 21.02
 
 The day the project was completed
 
